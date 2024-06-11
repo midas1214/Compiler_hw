@@ -1,0 +1,4759 @@
+狀態 103 衝突：1 項縮減/縮減
+狀態 206 衝突：1 項偏移/縮減
+狀態 231 衝突：1 項偏移/縮減
+
+
+文法
+
+    0 $accept: Program $end
+
+    1 $@1: ε
+
+    2 Program: $@1 GlobalStmtList
+    3        | ε
+
+    4 GlobalStmtList: GlobalStmtList GlobalStmt
+    5               | GlobalStmt
+
+    6 GlobalStmt: DefineVariableStmt
+    7           | FunctionDefStmt
+
+    8 DefineVariableStmt: VARIABLE_T IDENT VAL_ASSIGN Expression ';'
+
+    9 Expression: Expression ADD Expression
+   10           | Expression SUB Expression
+   11           | Expression MUL Expression
+   12           | Expression DIV Expression
+   13           | Expression REM Expression
+   14           | SUB Expression
+   15           | Expression GTR Expression
+   16           | Expression LES Expression
+   17           | Expression GEQ Expression
+   18           | Expression LEQ Expression
+   19           | Expression EQL Expression
+   20           | Expression NEQ Expression
+   21           | Expression LAN Expression
+   22           | Expression LOR Expression
+   23           | NOT Expression
+   24           | Expression BAN Expression
+   25           | Expression BOR Expression
+   26           | Expression BXO Expression
+   27           | BNT Expression
+   28           | Expression SHR Expression
+   29           | STR_LIT
+   30           | FLOAT_LIT
+   31           | BOOL_LIT
+   32           | INT_LIT
+   33           | IDENT
+   34           | '(' Expression ')'
+   35           | '(' VARIABLE_T ')' Expression
+   36           | FuncCall
+   37           | ArrCall
+
+   38 $@2: ε
+
+   39 $@3: ε
+
+   40 $@4: ε
+
+   41 $@5: ε
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' $@2 FunctionParameterStmtList $@3 ')' '{' $@4 StmtList '}' $@5
+
+   43 FunctionParameterStmtList: FunctionParameterStmtList ',' FunctionParameterStmt
+   44                          | FunctionParameterStmt
+   45                          | ε
+
+   46 FunctionParameterStmt: VARIABLE_T IDENT
+   47                      | VARIABLE_T IDENT '[' ']'
+
+   48 StmtList: StmtList Stmt
+   49         | Stmt
+
+   50 Stmt: ';'
+   51     | COUT CoutParmListStmt ';'
+
+   52 $@6: ε
+
+   53 Stmt: RETURN $@6 Expression ';'
+   54     | DeclareVarStmt ';'
+   55     | AssignVarStmt ';'
+   56     | IfStmt
+   57     | WhileStmt
+   58     | ForStmt
+   59     | FuncCall ';'
+   60     | BREAK
+   61     | CONTINUE
+
+   62 $@7: ε
+
+   63 Stmt: RETURN $@7
+
+   64 $@8: ε
+
+   65 CoutParmListStmt: CoutParmListStmt SHL $@8 Expression
+
+   66 $@9: ε
+
+   67 CoutParmListStmt: SHL $@9 Expression
+
+   68 $@10: ε
+
+   69 DeclareVarStmt: VARIABLE_T $@10 VarList
+
+   70 VarList: Var
+   71        | VarList ',' Var
+
+   72 Var: IDENT
+   73    | IDENT VAL_ASSIGN Expression
+   74    | IDENT '[' INT_LIT ']'
+
+   75 $@11: ε
+
+   76 $@12: ε
+
+   77 Var: IDENT '[' INT_LIT ']' $@11 VAL_ASSIGN $@12 '{' InitArr '}'
+   78    | IDENT '[' INT_LIT ']' '[' INT_LIT ']'
+
+   79 $@13: ε
+
+   80 Var: IDENT '[' INT_LIT ']' '[' INT_LIT ']' $@13 VAL_ASSIGN '{' InitArr '}'
+
+   81 $@14: ε
+
+   82 InitArr: InitArr ',' $@14 Expression
+
+   83 $@15: ε
+
+   84 InitArr: $@15 Expression
+   85        | ε
+
+   86 $@16: ε
+
+   87 $@17: ε
+
+   88 ArrCall: IDENT $@16 ArrayIndices $@17
+
+   89 $@18: ε
+
+   90 AssignVarStmt: IDENT $@18 AssignmentOperator
+
+   91 $@19: ε
+
+   92 $@20: ε
+
+   93 AssignVarStmt: IDENT $@19 ArrayIndices $@20 AssignmentOperator
+
+   94 $@21: ε
+
+   95 ArrayIndices: ArrayIndices '[' $@21 Expression ']'
+   96             | '[' Expression ']'
+
+   97 AssignmentOperator: VAL_ASSIGN Expression
+   98                   | ADD_ASSIGN Expression
+   99                   | SUB_ASSIGN Expression
+  100                   | MUL_ASSIGN Expression
+  101                   | DIV_ASSIGN Expression
+  102                   | REM_ASSIGN Expression
+  103                   | BAN_ASSIGN Expression
+  104                   | BOR_ASSIGN Expression
+  105                   | BXO_ASSIGN Expression
+  106                   | SHR_ASSIGN Expression
+  107                   | SHL_ASSIGN Expression
+  108                   | INC_ASSIGN
+  109                   | DEC_ASSIGN
+
+  110 $@22: ε
+
+  111 $@23: ε
+
+  112 $@24: ε
+
+  113 $@25: ε
+
+  114 IfStmt: IF '(' Expression ')' $@22 '{' $@23 StmtList '}' $@24 $@25 ELSEStmt
+
+  115 $@26: ε
+
+  116 $@27: ε
+
+  117 $@28: ε
+
+  118 IfStmt: IF '(' Expression ')' $@26 $@27 Stmt $@28 ELSEStmt
+
+  119 $@29: ε
+
+  120 $@30: ε
+
+  121 $@31: ε
+
+  122 ELSEStmt: ELSE '{' $@29 $@30 StmtList '}' $@31
+  123         | ε
+
+  124 $@32: ε
+
+  125 $@33: ε
+
+  126 $@34: ε
+
+  127 $@35: ε
+
+  128 $@36: ε
+
+  129 WhileStmt: WHILE $@32 $@33 '(' Expression ')' $@34 '{' $@35 StmtList '}' $@36
+
+  130 $@37: ε
+
+  131 $@38: ε
+
+  132 $@39: ε
+
+  133 $@40: ε
+
+  134 $@41: ε
+
+  135 ForStmt: FOR $@37 $@38 $@39 '(' ForInside ')' $@40 '{' StmtList $@41 '}'
+
+  136 ForInside: ForInit ';' ForCondition ';' ForUpdate
+  137          | DeclareVarStmt ':' IDENT
+
+  138 ForInit: DeclareVarStmt
+  139        | AssignVarStmt
+  140        | ε
+
+  141 $@42: ε
+
+  142 ForCondition: $@42 Expression
+  143             | ε
+
+  144 $@43: ε
+
+  145 ForUpdate: $@43 AssignVarStmt
+  146          | ε
+
+  147 $@44: ε
+
+  148 $@45: ε
+
+  149 FuncCall: IDENT '(' ParamList $@44 $@45 ')'
+
+  150 ParamList: Expression
+  151          | ParamList ',' Expression
+
+
+終結語詞，附有它們出現處的規則
+
+    $end (0) 0
+    '(' (40) 34 35 42 114 118 129 135 149
+    ')' (41) 34 35 42 114 118 129 135 149
+    ',' (44) 43 71 82 151
+    ':' (58) 137
+    ';' (59) 8 50 51 53 54 55 59 136
+    '[' (91) 47 74 77 78 80 95 96
+    ']' (93) 47 74 77 78 80 95 96
+    '{' (123) 42 77 80 114 122 129 135
+    '}' (125) 42 77 80 114 122 129 135
+    error (256)
+    COUT (258) 51
+    SHR (259) 28
+    SHL (260) 65 67
+    BAN (261) 24
+    BOR (262) 25
+    BNT (263) 27
+    BXO (264) 26
+    ADD (265) 9
+    SUB (266) 10 14
+    MUL (267) 11
+    DIV (268) 12
+    REM (269) 13
+    NOT (270) 23
+    GTR (271) 15
+    LES (272) 16
+    GEQ (273) 17
+    LEQ (274) 18
+    EQL (275) 19
+    NEQ (276) 20
+    LAN (277) 21
+    LOR (278) 22
+    VAL_ASSIGN (279) 8 73 77 80 97
+    ADD_ASSIGN (280) 98
+    SUB_ASSIGN (281) 99
+    MUL_ASSIGN (282) 100
+    DIV_ASSIGN (283) 101
+    REM_ASSIGN (284) 102
+    BAN_ASSIGN (285) 103
+    BOR_ASSIGN (286) 104
+    BXO_ASSIGN (287) 105
+    SHR_ASSIGN (288) 106
+    SHL_ASSIGN (289) 107
+    INC_ASSIGN (290) 108
+    DEC_ASSIGN (291) 109
+    IF (292) 114 118
+    ELSE (293) 122
+    FOR (294) 135
+    WHILE (295) 129
+    RETURN (296) 53 63
+    BREAK (297) 60
+    CONTINUE (298) 61
+    VARIABLE_T <var_type> (299) 8 35 42 46 47 69
+    IDENT <s_var> (300) 8 33 42 46 47 72 73 74 77 78 80 88 90 93 137 149
+    STR_LIT <s_var> (301) 29
+    BOOL_LIT <b_var> (302) 31
+    INT_LIT <i_var> (303) 32 74 77 78 80
+    FLOAT_LIT <f_var> (304) 30
+    IFELSE (305)
+    UMINUS (306)
+    CALL (307)
+    CAST (308)
+
+
+非終結語詞，附有它們出現處的規則
+
+    $accept (63)
+        於左側： 0
+    Program (64)
+        於左側： 2 3
+        於右側： 0
+    $@1 (65)
+        於左側： 1
+        於右側： 2
+    GlobalStmtList (66)
+        於左側： 4 5
+        於右側： 2 4
+    GlobalStmt (67)
+        於左側： 6 7
+        於右側： 4 5
+    DefineVariableStmt (68)
+        於左側： 8
+        於右側： 6
+    Expression <object_val> (69)
+        於左側： 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37
+        於右側： 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 34 35 53 65 67 73 82 84 95 96 97 98 99 100 101 102 103 104 105 106 107 114 118 129 142 150 151
+    FunctionDefStmt (70)
+        於左側： 42
+        於右側： 7
+    $@2 (71)
+        於左側： 38
+        於右側： 42
+    $@3 (72)
+        於左側： 39
+        於右側： 42
+    $@4 (73)
+        於左側： 40
+        於右側： 42
+    $@5 (74)
+        於左側： 41
+        於右側： 42
+    FunctionParameterStmtList (75)
+        於左側： 43 44 45
+        於右側： 42 43
+    FunctionParameterStmt (76)
+        於左側： 46 47
+        於右側： 43 44
+    StmtList (77)
+        於左側： 48 49
+        於右側： 42 48 114 122 129 135
+    Stmt (78)
+        於左側： 50 51 53 54 55 56 57 58 59 60 61 63
+        於右側： 48 49 118
+    $@6 (79)
+        於左側： 52
+        於右側： 53
+    $@7 (80)
+        於左側： 62
+        於右側： 63
+    CoutParmListStmt (81)
+        於左側： 65 67
+        於右側： 51 65
+    $@8 (82)
+        於左側： 64
+        於右側： 65
+    $@9 (83)
+        於左側： 66
+        於右側： 67
+    DeclareVarStmt (84)
+        於左側： 69
+        於右側： 54 137 138
+    $@10 (85)
+        於左側： 68
+        於右側： 69
+    VarList (86)
+        於左側： 70 71
+        於右側： 69 71
+    Var (87)
+        於左側： 72 73 74 77 78 80
+        於右側： 70 71
+    $@11 (88)
+        於左側： 75
+        於右側： 77
+    $@12 (89)
+        於左側： 76
+        於右側： 77
+    $@13 (90)
+        於左側： 79
+        於右側： 80
+    InitArr (91)
+        於左側： 82 84 85
+        於右側： 77 80 82
+    $@14 (92)
+        於左側： 81
+        於右側： 82
+    $@15 (93)
+        於左側： 83
+        於右側： 84
+    ArrCall (94)
+        於左側： 88
+        於右側： 37
+    $@16 (95)
+        於左側： 86
+        於右側： 88
+    $@17 (96)
+        於左側： 87
+        於右側： 88
+    AssignVarStmt (97)
+        於左側： 90 93
+        於右側： 55 139 145
+    $@18 (98)
+        於左側： 89
+        於右側： 90
+    $@19 (99)
+        於左側： 91
+        於右側： 93
+    $@20 (100)
+        於左側： 92
+        於右側： 93
+    ArrayIndices (101)
+        於左側： 95 96
+        於右側： 88 93 95
+    $@21 (102)
+        於左側： 94
+        於右側： 95
+    AssignmentOperator (103)
+        於左側： 97 98 99 100 101 102 103 104 105 106 107 108 109
+        於右側： 90 93
+    IfStmt (104)
+        於左側： 114 118
+        於右側： 56
+    $@22 (105)
+        於左側： 110
+        於右側： 114
+    $@23 (106)
+        於左側： 111
+        於右側： 114
+    $@24 (107)
+        於左側： 112
+        於右側： 114
+    $@25 (108)
+        於左側： 113
+        於右側： 114
+    $@26 (109)
+        於左側： 115
+        於右側： 118
+    $@27 (110)
+        於左側： 116
+        於右側： 118
+    $@28 (111)
+        於左側： 117
+        於右側： 118
+    ELSEStmt (112)
+        於左側： 122 123
+        於右側： 114 118
+    $@29 (113)
+        於左側： 119
+        於右側： 122
+    $@30 (114)
+        於左側： 120
+        於右側： 122
+    $@31 (115)
+        於左側： 121
+        於右側： 122
+    WhileStmt (116)
+        於左側： 129
+        於右側： 57
+    $@32 (117)
+        於左側： 124
+        於右側： 129
+    $@33 (118)
+        於左側： 125
+        於右側： 129
+    $@34 (119)
+        於左側： 126
+        於右側： 129
+    $@35 (120)
+        於左側： 127
+        於右側： 129
+    $@36 (121)
+        於左側： 128
+        於右側： 129
+    ForStmt (122)
+        於左側： 135
+        於右側： 58
+    $@37 (123)
+        於左側： 130
+        於右側： 135
+    $@38 (124)
+        於左側： 131
+        於右側： 135
+    $@39 (125)
+        於左側： 132
+        於右側： 135
+    $@40 (126)
+        於左側： 133
+        於右側： 135
+    $@41 (127)
+        於左側： 134
+        於右側： 135
+    ForInside (128)
+        於左側： 136 137
+        於右側： 135
+    ForInit (129)
+        於左側： 138 139 140
+        於右側： 136
+    ForCondition (130)
+        於左側： 142 143
+        於右側： 136
+    $@42 (131)
+        於左側： 141
+        於右側： 142
+    ForUpdate (132)
+        於左側： 145 146
+        於右側： 136
+    $@43 (133)
+        於左側： 144
+        於右側： 145
+    FuncCall (134)
+        於左側： 149
+        於右側： 36 59
+    $@44 (135)
+        於左側： 147
+        於右側： 149
+    $@45 (136)
+        於左側： 148
+        於右側： 149
+    ParamList (137)
+        於左側： 150 151
+        於右側： 149 151
+
+
+狀態 0
+
+    0 $accept: • Program $end
+
+    $end      使用規則 3 以縮減 (Program)
+    $default  使用規則 1 以縮減 ($@1)
+
+    Program  進入狀態 1
+    $@1      進入狀態 2
+
+
+狀態 1
+
+    0 $accept: Program • $end
+
+    $end  偏移，並進入狀態 3
+
+
+狀態 2
+
+    2 Program: $@1 • GlobalStmtList
+
+    VARIABLE_T  偏移，並進入狀態 4
+
+    GlobalStmtList      進入狀態 5
+    GlobalStmt          進入狀態 6
+    DefineVariableStmt  進入狀態 7
+    FunctionDefStmt     進入狀態 8
+
+
+狀態 3
+
+    0 $accept: Program $end •
+
+    $default  接受
+
+
+狀態 4
+
+    8 DefineVariableStmt: VARIABLE_T • IDENT VAL_ASSIGN Expression ';'
+   42 FunctionDefStmt: VARIABLE_T • IDENT '(' $@2 FunctionParameterStmtList $@3 ')' '{' $@4 StmtList '}' $@5
+
+    IDENT  偏移，並進入狀態 9
+
+
+狀態 5
+
+    2 Program: $@1 GlobalStmtList •
+    4 GlobalStmtList: GlobalStmtList • GlobalStmt
+
+    VARIABLE_T  偏移，並進入狀態 4
+
+    $default  使用規則 2 以縮減 (Program)
+
+    GlobalStmt          進入狀態 10
+    DefineVariableStmt  進入狀態 7
+    FunctionDefStmt     進入狀態 8
+
+
+狀態 6
+
+    5 GlobalStmtList: GlobalStmt •
+
+    $default  使用規則 5 以縮減 (GlobalStmtList)
+
+
+狀態 7
+
+    6 GlobalStmt: DefineVariableStmt •
+
+    $default  使用規則 6 以縮減 (GlobalStmt)
+
+
+狀態 8
+
+    7 GlobalStmt: FunctionDefStmt •
+
+    $default  使用規則 7 以縮減 (GlobalStmt)
+
+
+狀態 9
+
+    8 DefineVariableStmt: VARIABLE_T IDENT • VAL_ASSIGN Expression ';'
+   42 FunctionDefStmt: VARIABLE_T IDENT • '(' $@2 FunctionParameterStmtList $@3 ')' '{' $@4 StmtList '}' $@5
+
+    VAL_ASSIGN  偏移，並進入狀態 11
+    '('         偏移，並進入狀態 12
+
+
+狀態 10
+
+    4 GlobalStmtList: GlobalStmtList GlobalStmt •
+
+    $default  使用規則 4 以縮減 (GlobalStmtList)
+
+
+狀態 11
+
+    8 DefineVariableStmt: VARIABLE_T IDENT VAL_ASSIGN • Expression ';'
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 22
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 12
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' • $@2 FunctionParameterStmtList $@3 ')' '{' $@4 StmtList '}' $@5
+
+    $default  使用規則 38 以縮減 ($@2)
+
+    $@2  進入狀態 25
+
+
+狀態 13
+
+   27 Expression: BNT • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 26
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 14
+
+   14 Expression: SUB • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 27
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 15
+
+   23 Expression: NOT • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 28
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 16
+
+   33 Expression: IDENT •
+   88 ArrCall: IDENT • $@16 ArrayIndices $@17
+  149 FuncCall: IDENT • '(' ParamList $@44 $@45 ')'
+
+    '('  偏移，並進入狀態 29
+
+    '['       使用規則 86 以縮減 ($@16)
+    $default  使用規則 33 以縮減 (Expression)
+
+    $@16  進入狀態 30
+
+
+狀態 17
+
+   29 Expression: STR_LIT •
+
+    $default  使用規則 29 以縮減 (Expression)
+
+
+狀態 18
+
+   31 Expression: BOOL_LIT •
+
+    $default  使用規則 31 以縮減 (Expression)
+
+
+狀態 19
+
+   32 Expression: INT_LIT •
+
+    $default  使用規則 32 以縮減 (Expression)
+
+
+狀態 20
+
+   30 Expression: FLOAT_LIT •
+
+    $default  使用規則 30 以縮減 (Expression)
+
+
+狀態 21
+
+   34 Expression: '(' • Expression ')'
+   35           | '(' • VARIABLE_T ')' Expression
+
+    BNT         偏移，並進入狀態 13
+    SUB         偏移，並進入狀態 14
+    NOT         偏移，並進入狀態 15
+    VARIABLE_T  偏移，並進入狀態 31
+    IDENT       偏移，並進入狀態 16
+    STR_LIT     偏移，並進入狀態 17
+    BOOL_LIT    偏移，並進入狀態 18
+    INT_LIT     偏移，並進入狀態 19
+    FLOAT_LIT   偏移，並進入狀態 20
+    '('         偏移，並進入狀態 21
+
+    Expression  進入狀態 32
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 22
+
+    8 DefineVariableStmt: VARIABLE_T IDENT VAL_ASSIGN Expression • ';'
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+    ';'  偏移，並進入狀態 50
+
+
+狀態 23
+
+   37 Expression: ArrCall •
+
+    $default  使用規則 37 以縮減 (Expression)
+
+
+狀態 24
+
+   36 Expression: FuncCall •
+
+    $default  使用規則 36 以縮減 (Expression)
+
+
+狀態 25
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' $@2 • FunctionParameterStmtList $@3 ')' '{' $@4 StmtList '}' $@5
+
+    VARIABLE_T  偏移，並進入狀態 51
+
+    $default  使用規則 45 以縮減 (FunctionParameterStmtList)
+
+    FunctionParameterStmtList  進入狀態 52
+    FunctionParameterStmt      進入狀態 53
+
+
+狀態 26
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   27           | BNT Expression •
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+
+    $default  使用規則 27 以縮減 (Expression)
+
+
+狀態 27
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   14           | SUB Expression •
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    $default  使用規則 14 以縮減 (Expression)
+
+
+狀態 28
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   23           | NOT Expression •
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    $default  使用規則 23 以縮減 (Expression)
+
+
+狀態 29
+
+  149 FuncCall: IDENT '(' • ParamList $@44 $@45 ')'
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 54
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+    ParamList   進入狀態 55
+
+
+狀態 30
+
+   88 ArrCall: IDENT $@16 • ArrayIndices $@17
+
+    '['  偏移，並進入狀態 56
+
+    ArrayIndices  進入狀態 57
+
+
+狀態 31
+
+   35 Expression: '(' VARIABLE_T • ')' Expression
+
+    ')'  偏移，並進入狀態 58
+
+
+狀態 32
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   34           | '(' Expression • ')'
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+    ')'  偏移，並進入狀態 59
+
+
+狀態 33
+
+   28 Expression: Expression SHR • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 60
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 34
+
+   24 Expression: Expression BAN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 61
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 35
+
+   25 Expression: Expression BOR • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 62
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 36
+
+   26 Expression: Expression BXO • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 63
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 37
+
+    9 Expression: Expression ADD • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 64
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 38
+
+   10 Expression: Expression SUB • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 65
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 39
+
+   11 Expression: Expression MUL • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 66
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 40
+
+   12 Expression: Expression DIV • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 67
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 41
+
+   13 Expression: Expression REM • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 68
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 42
+
+   15 Expression: Expression GTR • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 69
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 43
+
+   16 Expression: Expression LES • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 70
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 44
+
+   17 Expression: Expression GEQ • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 71
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 45
+
+   18 Expression: Expression LEQ • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 72
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 46
+
+   19 Expression: Expression EQL • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 73
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 47
+
+   20 Expression: Expression NEQ • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 74
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 48
+
+   21 Expression: Expression LAN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 75
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 49
+
+   22 Expression: Expression LOR • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 76
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 50
+
+    8 DefineVariableStmt: VARIABLE_T IDENT VAL_ASSIGN Expression ';' •
+
+    $default  使用規則 8 以縮減 (DefineVariableStmt)
+
+
+狀態 51
+
+   46 FunctionParameterStmt: VARIABLE_T • IDENT
+   47                      | VARIABLE_T • IDENT '[' ']'
+
+    IDENT  偏移，並進入狀態 77
+
+
+狀態 52
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' $@2 FunctionParameterStmtList • $@3 ')' '{' $@4 StmtList '}' $@5
+   43 FunctionParameterStmtList: FunctionParameterStmtList • ',' FunctionParameterStmt
+
+    ','  偏移，並進入狀態 78
+
+    $default  使用規則 39 以縮減 ($@3)
+
+    $@3  進入狀態 79
+
+
+狀態 53
+
+   44 FunctionParameterStmtList: FunctionParameterStmt •
+
+    $default  使用規則 44 以縮減 (FunctionParameterStmtList)
+
+
+狀態 54
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  150 ParamList: Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 150 以縮減 (ParamList)
+
+
+狀態 55
+
+  149 FuncCall: IDENT '(' ParamList • $@44 $@45 ')'
+  151 ParamList: ParamList • ',' Expression
+
+    ','  偏移，並進入狀態 80
+
+    $default  使用規則 147 以縮減 ($@44)
+
+    $@44  進入狀態 81
+
+
+狀態 56
+
+   96 ArrayIndices: '[' • Expression ']'
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 82
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 57
+
+   88 ArrCall: IDENT $@16 ArrayIndices • $@17
+   95 ArrayIndices: ArrayIndices • '[' $@21 Expression ']'
+
+    '['  偏移，並進入狀態 83
+
+    $default  使用規則 87 以縮減 ($@17)
+
+    $@17  進入狀態 84
+
+
+狀態 58
+
+   35 Expression: '(' VARIABLE_T ')' • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 85
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 59
+
+   34 Expression: '(' Expression ')' •
+
+    $default  使用規則 34 以縮減 (Expression)
+
+
+狀態 60
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   28           | Expression SHR Expression •
+
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+
+    $default  使用規則 28 以縮減 (Expression)
+
+
+狀態 61
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   24           | Expression BAN Expression •
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+
+    $default  使用規則 24 以縮減 (Expression)
+
+
+狀態 62
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   25           | Expression BOR Expression •
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+
+    $default  使用規則 25 以縮減 (Expression)
+
+
+狀態 63
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   26           | Expression BXO Expression •
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+
+    $default  使用規則 26 以縮減 (Expression)
+
+
+狀態 64
+
+    9 Expression: Expression • ADD Expression
+    9           | Expression ADD Expression •
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+
+    $default  使用規則 9 以縮減 (Expression)
+
+
+狀態 65
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   10           | Expression SUB Expression •
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+
+    $default  使用規則 10 以縮減 (Expression)
+
+
+狀態 66
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   11           | Expression MUL Expression •
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    $default  使用規則 11 以縮減 (Expression)
+
+
+狀態 67
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   12           | Expression DIV Expression •
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    $default  使用規則 12 以縮減 (Expression)
+
+
+狀態 68
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   13           | Expression REM Expression •
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    $default  使用規則 13 以縮減 (Expression)
+
+
+狀態 69
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   15           | Expression GTR Expression •
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+
+    $default  使用規則 15 以縮減 (Expression)
+
+
+狀態 70
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   16           | Expression LES Expression •
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+
+    $default  使用規則 16 以縮減 (Expression)
+
+
+狀態 71
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   17           | Expression GEQ Expression •
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+
+    $default  使用規則 17 以縮減 (Expression)
+
+
+狀態 72
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   18           | Expression LEQ Expression •
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+
+    $default  使用規則 18 以縮減 (Expression)
+
+
+狀態 73
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   19           | Expression EQL Expression •
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+
+    $default  使用規則 19 以縮減 (Expression)
+
+
+狀態 74
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   20           | Expression NEQ Expression •
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+
+    $default  使用規則 20 以縮減 (Expression)
+
+
+狀態 75
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   21           | Expression LAN Expression •
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+
+    $default  使用規則 21 以縮減 (Expression)
+
+
+狀態 76
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   22           | Expression LOR Expression •
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+
+    $default  使用規則 22 以縮減 (Expression)
+
+
+狀態 77
+
+   46 FunctionParameterStmt: VARIABLE_T IDENT •
+   47                      | VARIABLE_T IDENT • '[' ']'
+
+    '['  偏移，並進入狀態 86
+
+    $default  使用規則 46 以縮減 (FunctionParameterStmt)
+
+
+狀態 78
+
+   43 FunctionParameterStmtList: FunctionParameterStmtList ',' • FunctionParameterStmt
+
+    VARIABLE_T  偏移，並進入狀態 51
+
+    FunctionParameterStmt  進入狀態 87
+
+
+狀態 79
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' $@2 FunctionParameterStmtList $@3 • ')' '{' $@4 StmtList '}' $@5
+
+    ')'  偏移，並進入狀態 88
+
+
+狀態 80
+
+  151 ParamList: ParamList ',' • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 89
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 81
+
+  149 FuncCall: IDENT '(' ParamList $@44 • $@45 ')'
+
+    $default  使用規則 148 以縮減 ($@45)
+
+    $@45  進入狀態 90
+
+
+狀態 82
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   96 ArrayIndices: '[' Expression • ']'
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+    ']'  偏移，並進入狀態 91
+
+
+狀態 83
+
+   95 ArrayIndices: ArrayIndices '[' • $@21 Expression ']'
+
+    $default  使用規則 94 以縮減 ($@21)
+
+    $@21  進入狀態 92
+
+
+狀態 84
+
+   88 ArrCall: IDENT $@16 ArrayIndices $@17 •
+
+    $default  使用規則 88 以縮減 (ArrCall)
+
+
+狀態 85
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   35           | '(' VARIABLE_T ')' Expression •
+
+    $default  使用規則 35 以縮減 (Expression)
+
+
+狀態 86
+
+   47 FunctionParameterStmt: VARIABLE_T IDENT '[' • ']'
+
+    ']'  偏移，並進入狀態 93
+
+
+狀態 87
+
+   43 FunctionParameterStmtList: FunctionParameterStmtList ',' FunctionParameterStmt •
+
+    $default  使用規則 43 以縮減 (FunctionParameterStmtList)
+
+
+狀態 88
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' $@2 FunctionParameterStmtList $@3 ')' • '{' $@4 StmtList '}' $@5
+
+    '{'  偏移，並進入狀態 94
+
+
+狀態 89
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  151 ParamList: ParamList ',' Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 151 以縮減 (ParamList)
+
+
+狀態 90
+
+  149 FuncCall: IDENT '(' ParamList $@44 $@45 • ')'
+
+    ')'  偏移，並進入狀態 95
+
+
+狀態 91
+
+   96 ArrayIndices: '[' Expression ']' •
+
+    $default  使用規則 96 以縮減 (ArrayIndices)
+
+
+狀態 92
+
+   95 ArrayIndices: ArrayIndices '[' $@21 • Expression ']'
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 96
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 93
+
+   47 FunctionParameterStmt: VARIABLE_T IDENT '[' ']' •
+
+    $default  使用規則 47 以縮減 (FunctionParameterStmt)
+
+
+狀態 94
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' $@2 FunctionParameterStmtList $@3 ')' '{' • $@4 StmtList '}' $@5
+
+    $default  使用規則 40 以縮減 ($@4)
+
+    $@4  進入狀態 97
+
+
+狀態 95
+
+  149 FuncCall: IDENT '(' ParamList $@44 $@45 ')' •
+
+    $default  使用規則 149 以縮減 (FuncCall)
+
+
+狀態 96
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   95 ArrayIndices: ArrayIndices '[' $@21 Expression • ']'
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+    ']'  偏移，並進入狀態 98
+
+
+狀態 97
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' $@2 FunctionParameterStmtList $@3 ')' '{' $@4 • StmtList '}' $@5
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+
+    StmtList        進入狀態 109
+    Stmt            進入狀態 110
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    FuncCall        進入狀態 116
+
+
+狀態 98
+
+   95 ArrayIndices: ArrayIndices '[' $@21 Expression ']' •
+
+    $default  使用規則 95 以縮減 (ArrayIndices)
+
+
+狀態 99
+
+   51 Stmt: COUT • CoutParmListStmt ';'
+
+    SHL  偏移，並進入狀態 117
+
+    CoutParmListStmt  進入狀態 118
+
+
+狀態 100
+
+  114 IfStmt: IF • '(' Expression ')' $@22 '{' $@23 StmtList '}' $@24 $@25 ELSEStmt
+  118       | IF • '(' Expression ')' $@26 $@27 Stmt $@28 ELSEStmt
+
+    '('  偏移，並進入狀態 119
+
+
+狀態 101
+
+  135 ForStmt: FOR • $@37 $@38 $@39 '(' ForInside ')' $@40 '{' StmtList $@41 '}'
+
+    $default  使用規則 130 以縮減 ($@37)
+
+    $@37  進入狀態 120
+
+
+狀態 102
+
+  129 WhileStmt: WHILE • $@32 $@33 '(' Expression ')' $@34 '{' $@35 StmtList '}' $@36
+
+    $default  使用規則 124 以縮減 ($@32)
+
+    $@32  進入狀態 121
+
+
+狀態 103
+
+   53 Stmt: RETURN • $@6 Expression ';'
+   63     | RETURN • $@7
+
+    BNT        使用規則 52 以縮減 ($@6)
+    SUB        使用規則 52 以縮減 ($@6)
+    NOT        使用規則 52 以縮減 ($@6)
+    IDENT      使用規則 52 以縮減 ($@6)
+    IDENT      [使用規則 62 以縮減 ($@7)]
+    STR_LIT    使用規則 52 以縮減 ($@6)
+    BOOL_LIT   使用規則 52 以縮減 ($@6)
+    INT_LIT    使用規則 52 以縮減 ($@6)
+    FLOAT_LIT  使用規則 52 以縮減 ($@6)
+    '('        使用規則 52 以縮減 ($@6)
+    $default   使用規則 62 以縮減 ($@7)
+
+    $@6  進入狀態 122
+    $@7  進入狀態 123
+
+
+狀態 104
+
+   60 Stmt: BREAK •
+
+    $default  使用規則 60 以縮減 (Stmt)
+
+
+狀態 105
+
+   61 Stmt: CONTINUE •
+
+    $default  使用規則 61 以縮減 (Stmt)
+
+
+狀態 106
+
+   69 DeclareVarStmt: VARIABLE_T • $@10 VarList
+
+    $default  使用規則 68 以縮減 ($@10)
+
+    $@10  進入狀態 124
+
+
+狀態 107
+
+   90 AssignVarStmt: IDENT • $@18 AssignmentOperator
+   93              | IDENT • $@19 ArrayIndices $@20 AssignmentOperator
+  149 FuncCall: IDENT • '(' ParamList $@44 $@45 ')'
+
+    '('  偏移，並進入狀態 29
+
+    '['       使用規則 91 以縮減 ($@19)
+    $default  使用規則 89 以縮減 ($@18)
+
+    $@18  進入狀態 125
+    $@19  進入狀態 126
+
+
+狀態 108
+
+   50 Stmt: ';' •
+
+    $default  使用規則 50 以縮減 (Stmt)
+
+
+狀態 109
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' $@2 FunctionParameterStmtList $@3 ')' '{' $@4 StmtList • '}' $@5
+   48 StmtList: StmtList • Stmt
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+    '}'         偏移，並進入狀態 127
+
+    Stmt            進入狀態 128
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    FuncCall        進入狀態 116
+
+
+狀態 110
+
+   49 StmtList: Stmt •
+
+    $default  使用規則 49 以縮減 (StmtList)
+
+
+狀態 111
+
+   54 Stmt: DeclareVarStmt • ';'
+
+    ';'  偏移，並進入狀態 129
+
+
+狀態 112
+
+   55 Stmt: AssignVarStmt • ';'
+
+    ';'  偏移，並進入狀態 130
+
+
+狀態 113
+
+   56 Stmt: IfStmt •
+
+    $default  使用規則 56 以縮減 (Stmt)
+
+
+狀態 114
+
+   57 Stmt: WhileStmt •
+
+    $default  使用規則 57 以縮減 (Stmt)
+
+
+狀態 115
+
+   58 Stmt: ForStmt •
+
+    $default  使用規則 58 以縮減 (Stmt)
+
+
+狀態 116
+
+   59 Stmt: FuncCall • ';'
+
+    ';'  偏移，並進入狀態 131
+
+
+狀態 117
+
+   67 CoutParmListStmt: SHL • $@9 Expression
+
+    $default  使用規則 66 以縮減 ($@9)
+
+    $@9  進入狀態 132
+
+
+狀態 118
+
+   51 Stmt: COUT CoutParmListStmt • ';'
+   65 CoutParmListStmt: CoutParmListStmt • SHL $@8 Expression
+
+    SHL  偏移，並進入狀態 133
+    ';'  偏移，並進入狀態 134
+
+
+狀態 119
+
+  114 IfStmt: IF '(' • Expression ')' $@22 '{' $@23 StmtList '}' $@24 $@25 ELSEStmt
+  118       | IF '(' • Expression ')' $@26 $@27 Stmt $@28 ELSEStmt
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 135
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 120
+
+  135 ForStmt: FOR $@37 • $@38 $@39 '(' ForInside ')' $@40 '{' StmtList $@41 '}'
+
+    $default  使用規則 131 以縮減 ($@38)
+
+    $@38  進入狀態 136
+
+
+狀態 121
+
+  129 WhileStmt: WHILE $@32 • $@33 '(' Expression ')' $@34 '{' $@35 StmtList '}' $@36
+
+    $default  使用規則 125 以縮減 ($@33)
+
+    $@33  進入狀態 137
+
+
+狀態 122
+
+   53 Stmt: RETURN $@6 • Expression ';'
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 138
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 123
+
+   63 Stmt: RETURN $@7 •
+
+    $default  使用規則 63 以縮減 (Stmt)
+
+
+狀態 124
+
+   69 DeclareVarStmt: VARIABLE_T $@10 • VarList
+
+    IDENT  偏移，並進入狀態 139
+
+    VarList  進入狀態 140
+    Var      進入狀態 141
+
+
+狀態 125
+
+   90 AssignVarStmt: IDENT $@18 • AssignmentOperator
+
+    VAL_ASSIGN  偏移，並進入狀態 142
+    ADD_ASSIGN  偏移，並進入狀態 143
+    SUB_ASSIGN  偏移，並進入狀態 144
+    MUL_ASSIGN  偏移，並進入狀態 145
+    DIV_ASSIGN  偏移，並進入狀態 146
+    REM_ASSIGN  偏移，並進入狀態 147
+    BAN_ASSIGN  偏移，並進入狀態 148
+    BOR_ASSIGN  偏移，並進入狀態 149
+    BXO_ASSIGN  偏移，並進入狀態 150
+    SHR_ASSIGN  偏移，並進入狀態 151
+    SHL_ASSIGN  偏移，並進入狀態 152
+    INC_ASSIGN  偏移，並進入狀態 153
+    DEC_ASSIGN  偏移，並進入狀態 154
+
+    AssignmentOperator  進入狀態 155
+
+
+狀態 126
+
+   93 AssignVarStmt: IDENT $@19 • ArrayIndices $@20 AssignmentOperator
+
+    '['  偏移，並進入狀態 56
+
+    ArrayIndices  進入狀態 156
+
+
+狀態 127
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' $@2 FunctionParameterStmtList $@3 ')' '{' $@4 StmtList '}' • $@5
+
+    $default  使用規則 41 以縮減 ($@5)
+
+    $@5  進入狀態 157
+
+
+狀態 128
+
+   48 StmtList: StmtList Stmt •
+
+    $default  使用規則 48 以縮減 (StmtList)
+
+
+狀態 129
+
+   54 Stmt: DeclareVarStmt ';' •
+
+    $default  使用規則 54 以縮減 (Stmt)
+
+
+狀態 130
+
+   55 Stmt: AssignVarStmt ';' •
+
+    $default  使用規則 55 以縮減 (Stmt)
+
+
+狀態 131
+
+   59 Stmt: FuncCall ';' •
+
+    $default  使用規則 59 以縮減 (Stmt)
+
+
+狀態 132
+
+   67 CoutParmListStmt: SHL $@9 • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 158
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 133
+
+   65 CoutParmListStmt: CoutParmListStmt SHL • $@8 Expression
+
+    $default  使用規則 64 以縮減 ($@8)
+
+    $@8  進入狀態 159
+
+
+狀態 134
+
+   51 Stmt: COUT CoutParmListStmt ';' •
+
+    $default  使用規則 51 以縮減 (Stmt)
+
+
+狀態 135
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  114 IfStmt: IF '(' Expression • ')' $@22 '{' $@23 StmtList '}' $@24 $@25 ELSEStmt
+  118       | IF '(' Expression • ')' $@26 $@27 Stmt $@28 ELSEStmt
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+    ')'  偏移，並進入狀態 160
+
+
+狀態 136
+
+  135 ForStmt: FOR $@37 $@38 • $@39 '(' ForInside ')' $@40 '{' StmtList $@41 '}'
+
+    $default  使用規則 132 以縮減 ($@39)
+
+    $@39  進入狀態 161
+
+
+狀態 137
+
+  129 WhileStmt: WHILE $@32 $@33 • '(' Expression ')' $@34 '{' $@35 StmtList '}' $@36
+
+    '('  偏移，並進入狀態 162
+
+
+狀態 138
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   53 Stmt: RETURN $@6 Expression • ';'
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+    ';'  偏移，並進入狀態 163
+
+
+狀態 139
+
+   72 Var: IDENT •
+   73    | IDENT • VAL_ASSIGN Expression
+   74    | IDENT • '[' INT_LIT ']'
+   77    | IDENT • '[' INT_LIT ']' $@11 VAL_ASSIGN $@12 '{' InitArr '}'
+   78    | IDENT • '[' INT_LIT ']' '[' INT_LIT ']'
+   80    | IDENT • '[' INT_LIT ']' '[' INT_LIT ']' $@13 VAL_ASSIGN '{' InitArr '}'
+
+    VAL_ASSIGN  偏移，並進入狀態 164
+    '['         偏移，並進入狀態 165
+
+    $default  使用規則 72 以縮減 (Var)
+
+
+狀態 140
+
+   69 DeclareVarStmt: VARIABLE_T $@10 VarList •
+   71 VarList: VarList • ',' Var
+
+    ','  偏移，並進入狀態 166
+
+    $default  使用規則 69 以縮減 (DeclareVarStmt)
+
+
+狀態 141
+
+   70 VarList: Var •
+
+    $default  使用規則 70 以縮減 (VarList)
+
+
+狀態 142
+
+   97 AssignmentOperator: VAL_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 167
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 143
+
+   98 AssignmentOperator: ADD_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 168
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 144
+
+   99 AssignmentOperator: SUB_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 169
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 145
+
+  100 AssignmentOperator: MUL_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 170
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 146
+
+  101 AssignmentOperator: DIV_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 171
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 147
+
+  102 AssignmentOperator: REM_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 172
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 148
+
+  103 AssignmentOperator: BAN_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 173
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 149
+
+  104 AssignmentOperator: BOR_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 174
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 150
+
+  105 AssignmentOperator: BXO_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 175
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 151
+
+  106 AssignmentOperator: SHR_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 176
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 152
+
+  107 AssignmentOperator: SHL_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 177
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 153
+
+  108 AssignmentOperator: INC_ASSIGN •
+
+    $default  使用規則 108 以縮減 (AssignmentOperator)
+
+
+狀態 154
+
+  109 AssignmentOperator: DEC_ASSIGN •
+
+    $default  使用規則 109 以縮減 (AssignmentOperator)
+
+
+狀態 155
+
+   90 AssignVarStmt: IDENT $@18 AssignmentOperator •
+
+    $default  使用規則 90 以縮減 (AssignVarStmt)
+
+
+狀態 156
+
+   93 AssignVarStmt: IDENT $@19 ArrayIndices • $@20 AssignmentOperator
+   95 ArrayIndices: ArrayIndices • '[' $@21 Expression ']'
+
+    '['  偏移，並進入狀態 83
+
+    $default  使用規則 92 以縮減 ($@20)
+
+    $@20  進入狀態 178
+
+
+狀態 157
+
+   42 FunctionDefStmt: VARIABLE_T IDENT '(' $@2 FunctionParameterStmtList $@3 ')' '{' $@4 StmtList '}' $@5 •
+
+    $default  使用規則 42 以縮減 (FunctionDefStmt)
+
+
+狀態 158
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   67 CoutParmListStmt: SHL $@9 Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 67 以縮減 (CoutParmListStmt)
+
+
+狀態 159
+
+   65 CoutParmListStmt: CoutParmListStmt SHL $@8 • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 179
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 160
+
+  114 IfStmt: IF '(' Expression ')' • $@22 '{' $@23 StmtList '}' $@24 $@25 ELSEStmt
+  118       | IF '(' Expression ')' • $@26 $@27 Stmt $@28 ELSEStmt
+
+    '{'       使用規則 110 以縮減 ($@22)
+    $default  使用規則 115 以縮減 ($@26)
+
+    $@22  進入狀態 180
+    $@26  進入狀態 181
+
+
+狀態 161
+
+  135 ForStmt: FOR $@37 $@38 $@39 • '(' ForInside ')' $@40 '{' StmtList $@41 '}'
+
+    '('  偏移，並進入狀態 182
+
+
+狀態 162
+
+  129 WhileStmt: WHILE $@32 $@33 '(' • Expression ')' $@34 '{' $@35 StmtList '}' $@36
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 183
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 163
+
+   53 Stmt: RETURN $@6 Expression ';' •
+
+    $default  使用規則 53 以縮減 (Stmt)
+
+
+狀態 164
+
+   73 Var: IDENT VAL_ASSIGN • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 184
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 165
+
+   74 Var: IDENT '[' • INT_LIT ']'
+   77    | IDENT '[' • INT_LIT ']' $@11 VAL_ASSIGN $@12 '{' InitArr '}'
+   78    | IDENT '[' • INT_LIT ']' '[' INT_LIT ']'
+   80    | IDENT '[' • INT_LIT ']' '[' INT_LIT ']' $@13 VAL_ASSIGN '{' InitArr '}'
+
+    INT_LIT  偏移，並進入狀態 185
+
+
+狀態 166
+
+   71 VarList: VarList ',' • Var
+
+    IDENT  偏移，並進入狀態 139
+
+    Var  進入狀態 186
+
+
+狀態 167
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   97 AssignmentOperator: VAL_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 97 以縮減 (AssignmentOperator)
+
+
+狀態 168
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   98 AssignmentOperator: ADD_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 98 以縮減 (AssignmentOperator)
+
+
+狀態 169
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   99 AssignmentOperator: SUB_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 99 以縮減 (AssignmentOperator)
+
+
+狀態 170
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  100 AssignmentOperator: MUL_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 100 以縮減 (AssignmentOperator)
+
+
+狀態 171
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  101 AssignmentOperator: DIV_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 101 以縮減 (AssignmentOperator)
+
+
+狀態 172
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  102 AssignmentOperator: REM_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 102 以縮減 (AssignmentOperator)
+
+
+狀態 173
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  103 AssignmentOperator: BAN_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 103 以縮減 (AssignmentOperator)
+
+
+狀態 174
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  104 AssignmentOperator: BOR_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 104 以縮減 (AssignmentOperator)
+
+
+狀態 175
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  105 AssignmentOperator: BXO_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 105 以縮減 (AssignmentOperator)
+
+
+狀態 176
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  106 AssignmentOperator: SHR_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 106 以縮減 (AssignmentOperator)
+
+
+狀態 177
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  107 AssignmentOperator: SHL_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 107 以縮減 (AssignmentOperator)
+
+
+狀態 178
+
+   93 AssignVarStmt: IDENT $@19 ArrayIndices $@20 • AssignmentOperator
+
+    VAL_ASSIGN  偏移，並進入狀態 142
+    ADD_ASSIGN  偏移，並進入狀態 143
+    SUB_ASSIGN  偏移，並進入狀態 144
+    MUL_ASSIGN  偏移，並進入狀態 145
+    DIV_ASSIGN  偏移，並進入狀態 146
+    REM_ASSIGN  偏移，並進入狀態 147
+    BAN_ASSIGN  偏移，並進入狀態 148
+    BOR_ASSIGN  偏移，並進入狀態 149
+    BXO_ASSIGN  偏移，並進入狀態 150
+    SHR_ASSIGN  偏移，並進入狀態 151
+    SHL_ASSIGN  偏移，並進入狀態 152
+    INC_ASSIGN  偏移，並進入狀態 153
+    DEC_ASSIGN  偏移，並進入狀態 154
+
+    AssignmentOperator  進入狀態 187
+
+
+狀態 179
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   65 CoutParmListStmt: CoutParmListStmt SHL $@8 Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 65 以縮減 (CoutParmListStmt)
+
+
+狀態 180
+
+  114 IfStmt: IF '(' Expression ')' $@22 • '{' $@23 StmtList '}' $@24 $@25 ELSEStmt
+
+    '{'  偏移，並進入狀態 188
+
+
+狀態 181
+
+  118 IfStmt: IF '(' Expression ')' $@26 • $@27 Stmt $@28 ELSEStmt
+
+    $default  使用規則 116 以縮減 ($@27)
+
+    $@27  進入狀態 189
+
+
+狀態 182
+
+  135 ForStmt: FOR $@37 $@38 $@39 '(' • ForInside ')' $@40 '{' StmtList $@41 '}'
+
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 190
+
+    $default  使用規則 140 以縮減 (ForInit)
+
+    DeclareVarStmt  進入狀態 191
+    AssignVarStmt   進入狀態 192
+    ForInside       進入狀態 193
+    ForInit         進入狀態 194
+
+
+狀態 183
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  129 WhileStmt: WHILE $@32 $@33 '(' Expression • ')' $@34 '{' $@35 StmtList '}' $@36
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+    ')'  偏移，並進入狀態 195
+
+
+狀態 184
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   73 Var: IDENT VAL_ASSIGN Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 73 以縮減 (Var)
+
+
+狀態 185
+
+   74 Var: IDENT '[' INT_LIT • ']'
+   77    | IDENT '[' INT_LIT • ']' $@11 VAL_ASSIGN $@12 '{' InitArr '}'
+   78    | IDENT '[' INT_LIT • ']' '[' INT_LIT ']'
+   80    | IDENT '[' INT_LIT • ']' '[' INT_LIT ']' $@13 VAL_ASSIGN '{' InitArr '}'
+
+    ']'  偏移，並進入狀態 196
+
+
+狀態 186
+
+   71 VarList: VarList ',' Var •
+
+    $default  使用規則 71 以縮減 (VarList)
+
+
+狀態 187
+
+   93 AssignVarStmt: IDENT $@19 ArrayIndices $@20 AssignmentOperator •
+
+    $default  使用規則 93 以縮減 (AssignVarStmt)
+
+
+狀態 188
+
+  114 IfStmt: IF '(' Expression ')' $@22 '{' • $@23 StmtList '}' $@24 $@25 ELSEStmt
+
+    $default  使用規則 111 以縮減 ($@23)
+
+    $@23  進入狀態 197
+
+
+狀態 189
+
+  118 IfStmt: IF '(' Expression ')' $@26 $@27 • Stmt $@28 ELSEStmt
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+
+    Stmt            進入狀態 198
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    FuncCall        進入狀態 116
+
+
+狀態 190
+
+   90 AssignVarStmt: IDENT • $@18 AssignmentOperator
+   93              | IDENT • $@19 ArrayIndices $@20 AssignmentOperator
+
+    '['       使用規則 91 以縮減 ($@19)
+    $default  使用規則 89 以縮減 ($@18)
+
+    $@18  進入狀態 125
+    $@19  進入狀態 126
+
+
+狀態 191
+
+  137 ForInside: DeclareVarStmt • ':' IDENT
+  138 ForInit: DeclareVarStmt •
+
+    ':'  偏移，並進入狀態 199
+
+    $default  使用規則 138 以縮減 (ForInit)
+
+
+狀態 192
+
+  139 ForInit: AssignVarStmt •
+
+    $default  使用規則 139 以縮減 (ForInit)
+
+
+狀態 193
+
+  135 ForStmt: FOR $@37 $@38 $@39 '(' ForInside • ')' $@40 '{' StmtList $@41 '}'
+
+    ')'  偏移，並進入狀態 200
+
+
+狀態 194
+
+  136 ForInside: ForInit • ';' ForCondition ';' ForUpdate
+
+    ';'  偏移，並進入狀態 201
+
+
+狀態 195
+
+  129 WhileStmt: WHILE $@32 $@33 '(' Expression ')' • $@34 '{' $@35 StmtList '}' $@36
+
+    $default  使用規則 126 以縮減 ($@34)
+
+    $@34  進入狀態 202
+
+
+狀態 196
+
+   74 Var: IDENT '[' INT_LIT ']' •
+   77    | IDENT '[' INT_LIT ']' • $@11 VAL_ASSIGN $@12 '{' InitArr '}'
+   78    | IDENT '[' INT_LIT ']' • '[' INT_LIT ']'
+   80    | IDENT '[' INT_LIT ']' • '[' INT_LIT ']' $@13 VAL_ASSIGN '{' InitArr '}'
+
+    '['  偏移，並進入狀態 203
+
+    VAL_ASSIGN  使用規則 75 以縮減 ($@11)
+    $default    使用規則 74 以縮減 (Var)
+
+    $@11  進入狀態 204
+
+
+狀態 197
+
+  114 IfStmt: IF '(' Expression ')' $@22 '{' $@23 • StmtList '}' $@24 $@25 ELSEStmt
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+
+    StmtList        進入狀態 205
+    Stmt            進入狀態 110
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    FuncCall        進入狀態 116
+
+
+狀態 198
+
+  118 IfStmt: IF '(' Expression ')' $@26 $@27 Stmt • $@28 ELSEStmt
+
+    $default  使用規則 117 以縮減 ($@28)
+
+    $@28  進入狀態 206
+
+
+狀態 199
+
+  137 ForInside: DeclareVarStmt ':' • IDENT
+
+    IDENT  偏移，並進入狀態 207
+
+
+狀態 200
+
+  135 ForStmt: FOR $@37 $@38 $@39 '(' ForInside ')' • $@40 '{' StmtList $@41 '}'
+
+    $default  使用規則 133 以縮減 ($@40)
+
+    $@40  進入狀態 208
+
+
+狀態 201
+
+  136 ForInside: ForInit ';' • ForCondition ';' ForUpdate
+
+    ';'       使用規則 143 以縮減 (ForCondition)
+    $default  使用規則 141 以縮減 ($@42)
+
+    ForCondition  進入狀態 209
+    $@42          進入狀態 210
+
+
+狀態 202
+
+  129 WhileStmt: WHILE $@32 $@33 '(' Expression ')' $@34 • '{' $@35 StmtList '}' $@36
+
+    '{'  偏移，並進入狀態 211
+
+
+狀態 203
+
+   78 Var: IDENT '[' INT_LIT ']' '[' • INT_LIT ']'
+   80    | IDENT '[' INT_LIT ']' '[' • INT_LIT ']' $@13 VAL_ASSIGN '{' InitArr '}'
+
+    INT_LIT  偏移，並進入狀態 212
+
+
+狀態 204
+
+   77 Var: IDENT '[' INT_LIT ']' $@11 • VAL_ASSIGN $@12 '{' InitArr '}'
+
+    VAL_ASSIGN  偏移，並進入狀態 213
+
+
+狀態 205
+
+   48 StmtList: StmtList • Stmt
+  114 IfStmt: IF '(' Expression ')' $@22 '{' $@23 StmtList • '}' $@24 $@25 ELSEStmt
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+    '}'         偏移，並進入狀態 214
+
+    Stmt            進入狀態 128
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    FuncCall        進入狀態 116
+
+
+狀態 206
+
+  118 IfStmt: IF '(' Expression ')' $@26 $@27 Stmt $@28 • ELSEStmt
+
+    ELSE  偏移，並進入狀態 215
+
+    ELSE      [使用規則 123 以縮減 (ELSEStmt)]
+    $default  使用規則 123 以縮減 (ELSEStmt)
+
+    ELSEStmt  進入狀態 216
+
+
+狀態 207
+
+  137 ForInside: DeclareVarStmt ':' IDENT •
+
+    $default  使用規則 137 以縮減 (ForInside)
+
+
+狀態 208
+
+  135 ForStmt: FOR $@37 $@38 $@39 '(' ForInside ')' $@40 • '{' StmtList $@41 '}'
+
+    '{'  偏移，並進入狀態 217
+
+
+狀態 209
+
+  136 ForInside: ForInit ';' ForCondition • ';' ForUpdate
+
+    ';'  偏移，並進入狀態 218
+
+
+狀態 210
+
+  142 ForCondition: $@42 • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 219
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 211
+
+  129 WhileStmt: WHILE $@32 $@33 '(' Expression ')' $@34 '{' • $@35 StmtList '}' $@36
+
+    $default  使用規則 127 以縮減 ($@35)
+
+    $@35  進入狀態 220
+
+
+狀態 212
+
+   78 Var: IDENT '[' INT_LIT ']' '[' INT_LIT • ']'
+   80    | IDENT '[' INT_LIT ']' '[' INT_LIT • ']' $@13 VAL_ASSIGN '{' InitArr '}'
+
+    ']'  偏移，並進入狀態 221
+
+
+狀態 213
+
+   77 Var: IDENT '[' INT_LIT ']' $@11 VAL_ASSIGN • $@12 '{' InitArr '}'
+
+    $default  使用規則 76 以縮減 ($@12)
+
+    $@12  進入狀態 222
+
+
+狀態 214
+
+  114 IfStmt: IF '(' Expression ')' $@22 '{' $@23 StmtList '}' • $@24 $@25 ELSEStmt
+
+    $default  使用規則 112 以縮減 ($@24)
+
+    $@24  進入狀態 223
+
+
+狀態 215
+
+  122 ELSEStmt: ELSE • '{' $@29 $@30 StmtList '}' $@31
+
+    '{'  偏移，並進入狀態 224
+
+
+狀態 216
+
+  118 IfStmt: IF '(' Expression ')' $@26 $@27 Stmt $@28 ELSEStmt •
+
+    $default  使用規則 118 以縮減 (IfStmt)
+
+
+狀態 217
+
+  135 ForStmt: FOR $@37 $@38 $@39 '(' ForInside ')' $@40 '{' • StmtList $@41 '}'
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+
+    StmtList        進入狀態 225
+    Stmt            進入狀態 110
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    FuncCall        進入狀態 116
+
+
+狀態 218
+
+  136 ForInside: ForInit ';' ForCondition ';' • ForUpdate
+
+    ')'       使用規則 146 以縮減 (ForUpdate)
+    $default  使用規則 144 以縮減 ($@43)
+
+    ForUpdate  進入狀態 226
+    $@43       進入狀態 227
+
+
+狀態 219
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+  142 ForCondition: $@42 Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 142 以縮減 (ForCondition)
+
+
+狀態 220
+
+  129 WhileStmt: WHILE $@32 $@33 '(' Expression ')' $@34 '{' $@35 • StmtList '}' $@36
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+
+    StmtList        進入狀態 228
+    Stmt            進入狀態 110
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    FuncCall        進入狀態 116
+
+
+狀態 221
+
+   78 Var: IDENT '[' INT_LIT ']' '[' INT_LIT ']' •
+   80    | IDENT '[' INT_LIT ']' '[' INT_LIT ']' • $@13 VAL_ASSIGN '{' InitArr '}'
+
+    VAL_ASSIGN  使用規則 79 以縮減 ($@13)
+    $default    使用規則 78 以縮減 (Var)
+
+    $@13  進入狀態 229
+
+
+狀態 222
+
+   77 Var: IDENT '[' INT_LIT ']' $@11 VAL_ASSIGN $@12 • '{' InitArr '}'
+
+    '{'  偏移，並進入狀態 230
+
+
+狀態 223
+
+  114 IfStmt: IF '(' Expression ')' $@22 '{' $@23 StmtList '}' $@24 • $@25 ELSEStmt
+
+    $default  使用規則 113 以縮減 ($@25)
+
+    $@25  進入狀態 231
+
+
+狀態 224
+
+  122 ELSEStmt: ELSE '{' • $@29 $@30 StmtList '}' $@31
+
+    $default  使用規則 119 以縮減 ($@29)
+
+    $@29  進入狀態 232
+
+
+狀態 225
+
+   48 StmtList: StmtList • Stmt
+  135 ForStmt: FOR $@37 $@38 $@39 '(' ForInside ')' $@40 '{' StmtList • $@41 '}'
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+
+    $default  使用規則 134 以縮減 ($@41)
+
+    Stmt            進入狀態 128
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    $@41            進入狀態 233
+    FuncCall        進入狀態 116
+
+
+狀態 226
+
+  136 ForInside: ForInit ';' ForCondition ';' ForUpdate •
+
+    $default  使用規則 136 以縮減 (ForInside)
+
+
+狀態 227
+
+  145 ForUpdate: $@43 • AssignVarStmt
+
+    IDENT  偏移，並進入狀態 190
+
+    AssignVarStmt  進入狀態 234
+
+
+狀態 228
+
+   48 StmtList: StmtList • Stmt
+  129 WhileStmt: WHILE $@32 $@33 '(' Expression ')' $@34 '{' $@35 StmtList • '}' $@36
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+    '}'         偏移，並進入狀態 235
+
+    Stmt            進入狀態 128
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    FuncCall        進入狀態 116
+
+
+狀態 229
+
+   80 Var: IDENT '[' INT_LIT ']' '[' INT_LIT ']' $@13 • VAL_ASSIGN '{' InitArr '}'
+
+    VAL_ASSIGN  偏移，並進入狀態 236
+
+
+狀態 230
+
+   77 Var: IDENT '[' INT_LIT ']' $@11 VAL_ASSIGN $@12 '{' • InitArr '}'
+
+    '}'       使用規則 85 以縮減 (InitArr)
+    ','       使用規則 85 以縮減 (InitArr)
+    $default  使用規則 83 以縮減 ($@15)
+
+    InitArr  進入狀態 237
+    $@15     進入狀態 238
+
+
+狀態 231
+
+  114 IfStmt: IF '(' Expression ')' $@22 '{' $@23 StmtList '}' $@24 $@25 • ELSEStmt
+
+    ELSE  偏移，並進入狀態 215
+
+    ELSE      [使用規則 123 以縮減 (ELSEStmt)]
+    $default  使用規則 123 以縮減 (ELSEStmt)
+
+    ELSEStmt  進入狀態 239
+
+
+狀態 232
+
+  122 ELSEStmt: ELSE '{' $@29 • $@30 StmtList '}' $@31
+
+    $default  使用規則 120 以縮減 ($@30)
+
+    $@30  進入狀態 240
+
+
+狀態 233
+
+  135 ForStmt: FOR $@37 $@38 $@39 '(' ForInside ')' $@40 '{' StmtList $@41 • '}'
+
+    '}'  偏移，並進入狀態 241
+
+
+狀態 234
+
+  145 ForUpdate: $@43 AssignVarStmt •
+
+    $default  使用規則 145 以縮減 (ForUpdate)
+
+
+狀態 235
+
+  129 WhileStmt: WHILE $@32 $@33 '(' Expression ')' $@34 '{' $@35 StmtList '}' • $@36
+
+    $default  使用規則 128 以縮減 ($@36)
+
+    $@36  進入狀態 242
+
+
+狀態 236
+
+   80 Var: IDENT '[' INT_LIT ']' '[' INT_LIT ']' $@13 VAL_ASSIGN • '{' InitArr '}'
+
+    '{'  偏移，並進入狀態 243
+
+
+狀態 237
+
+   77 Var: IDENT '[' INT_LIT ']' $@11 VAL_ASSIGN $@12 '{' InitArr • '}'
+   82 InitArr: InitArr • ',' $@14 Expression
+
+    '}'  偏移，並進入狀態 244
+    ','  偏移，並進入狀態 245
+
+
+狀態 238
+
+   84 InitArr: $@15 • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 246
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 239
+
+  114 IfStmt: IF '(' Expression ')' $@22 '{' $@23 StmtList '}' $@24 $@25 ELSEStmt •
+
+    $default  使用規則 114 以縮減 (IfStmt)
+
+
+狀態 240
+
+  122 ELSEStmt: ELSE '{' $@29 $@30 • StmtList '}' $@31
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+
+    StmtList        進入狀態 247
+    Stmt            進入狀態 110
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    FuncCall        進入狀態 116
+
+
+狀態 241
+
+  135 ForStmt: FOR $@37 $@38 $@39 '(' ForInside ')' $@40 '{' StmtList $@41 '}' •
+
+    $default  使用規則 135 以縮減 (ForStmt)
+
+
+狀態 242
+
+  129 WhileStmt: WHILE $@32 $@33 '(' Expression ')' $@34 '{' $@35 StmtList '}' $@36 •
+
+    $default  使用規則 129 以縮減 (WhileStmt)
+
+
+狀態 243
+
+   80 Var: IDENT '[' INT_LIT ']' '[' INT_LIT ']' $@13 VAL_ASSIGN '{' • InitArr '}'
+
+    '}'       使用規則 85 以縮減 (InitArr)
+    ','       使用規則 85 以縮減 (InitArr)
+    $default  使用規則 83 以縮減 ($@15)
+
+    InitArr  進入狀態 248
+    $@15     進入狀態 238
+
+
+狀態 244
+
+   77 Var: IDENT '[' INT_LIT ']' $@11 VAL_ASSIGN $@12 '{' InitArr '}' •
+
+    $default  使用規則 77 以縮減 (Var)
+
+
+狀態 245
+
+   82 InitArr: InitArr ',' • $@14 Expression
+
+    $default  使用規則 81 以縮減 ($@14)
+
+    $@14  進入狀態 249
+
+
+狀態 246
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   84 InitArr: $@15 Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 84 以縮減 (InitArr)
+
+
+狀態 247
+
+   48 StmtList: StmtList • Stmt
+  122 ELSEStmt: ELSE '{' $@29 $@30 StmtList • '}' $@31
+
+    COUT        偏移，並進入狀態 99
+    IF          偏移，並進入狀態 100
+    FOR         偏移，並進入狀態 101
+    WHILE       偏移，並進入狀態 102
+    RETURN      偏移，並進入狀態 103
+    BREAK       偏移，並進入狀態 104
+    CONTINUE    偏移，並進入狀態 105
+    VARIABLE_T  偏移，並進入狀態 106
+    IDENT       偏移，並進入狀態 107
+    ';'         偏移，並進入狀態 108
+    '}'         偏移，並進入狀態 250
+
+    Stmt            進入狀態 128
+    DeclareVarStmt  進入狀態 111
+    AssignVarStmt   進入狀態 112
+    IfStmt          進入狀態 113
+    WhileStmt       進入狀態 114
+    ForStmt         進入狀態 115
+    FuncCall        進入狀態 116
+
+
+狀態 248
+
+   80 Var: IDENT '[' INT_LIT ']' '[' INT_LIT ']' $@13 VAL_ASSIGN '{' InitArr • '}'
+   82 InitArr: InitArr • ',' $@14 Expression
+
+    '}'  偏移，並進入狀態 251
+    ','  偏移，並進入狀態 245
+
+
+狀態 249
+
+   82 InitArr: InitArr ',' $@14 • Expression
+
+    BNT        偏移，並進入狀態 13
+    SUB        偏移，並進入狀態 14
+    NOT        偏移，並進入狀態 15
+    IDENT      偏移，並進入狀態 16
+    STR_LIT    偏移，並進入狀態 17
+    BOOL_LIT   偏移，並進入狀態 18
+    INT_LIT    偏移，並進入狀態 19
+    FLOAT_LIT  偏移，並進入狀態 20
+    '('        偏移，並進入狀態 21
+
+    Expression  進入狀態 252
+    ArrCall     進入狀態 23
+    FuncCall    進入狀態 24
+
+
+狀態 250
+
+  122 ELSEStmt: ELSE '{' $@29 $@30 StmtList '}' • $@31
+
+    $default  使用規則 121 以縮減 ($@31)
+
+    $@31  進入狀態 253
+
+
+狀態 251
+
+   80 Var: IDENT '[' INT_LIT ']' '[' INT_LIT ']' $@13 VAL_ASSIGN '{' InitArr '}' •
+
+    $default  使用規則 80 以縮減 (Var)
+
+
+狀態 252
+
+    9 Expression: Expression • ADD Expression
+   10           | Expression • SUB Expression
+   11           | Expression • MUL Expression
+   12           | Expression • DIV Expression
+   13           | Expression • REM Expression
+   15           | Expression • GTR Expression
+   16           | Expression • LES Expression
+   17           | Expression • GEQ Expression
+   18           | Expression • LEQ Expression
+   19           | Expression • EQL Expression
+   20           | Expression • NEQ Expression
+   21           | Expression • LAN Expression
+   22           | Expression • LOR Expression
+   24           | Expression • BAN Expression
+   25           | Expression • BOR Expression
+   26           | Expression • BXO Expression
+   28           | Expression • SHR Expression
+   82 InitArr: InitArr ',' $@14 Expression •
+
+    SHR  偏移，並進入狀態 33
+    BAN  偏移，並進入狀態 34
+    BOR  偏移，並進入狀態 35
+    BXO  偏移，並進入狀態 36
+    ADD  偏移，並進入狀態 37
+    SUB  偏移，並進入狀態 38
+    MUL  偏移，並進入狀態 39
+    DIV  偏移，並進入狀態 40
+    REM  偏移，並進入狀態 41
+    GTR  偏移，並進入狀態 42
+    LES  偏移，並進入狀態 43
+    GEQ  偏移，並進入狀態 44
+    LEQ  偏移，並進入狀態 45
+    EQL  偏移，並進入狀態 46
+    NEQ  偏移，並進入狀態 47
+    LAN  偏移，並進入狀態 48
+    LOR  偏移，並進入狀態 49
+
+    $default  使用規則 82 以縮減 (InitArr)
+
+
+狀態 253
+
+  122 ELSEStmt: ELSE '{' $@29 $@30 StmtList '}' $@31 •
+
+    $default  使用規則 122 以縮減 (ELSEStmt)
